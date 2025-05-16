@@ -13,3 +13,6 @@ async def convert(file: UploadFile = File(...)):
         media_type="image/png"
     )
 
+@app.get("/convert/test-cors")
+def test_cors():
+    return {"msg": "CORS is working"}

@@ -8,6 +8,7 @@ app = FastAPI()
 origins = [
     "http://localhost:3000",
     "https://toolspot.netlify.app",
+    "https://toolhub-1.onrender.com"
 ]
 
 

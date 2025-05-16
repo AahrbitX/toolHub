@@ -90,6 +90,10 @@ export default function Home() {
       const res = await fetch("http://toolhub-1.onrender.com/api/convert/jpg-to-png", {
         method: "POST",
         body: formData,
+	headers: {
+	  "Accept": "application/json",
+	},
+	credentials: "include",
       });
 
       if (!res.ok) throw new Error("Conversion failed");

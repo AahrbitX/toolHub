@@ -110,12 +110,15 @@ export default function Home() {
     formData.append("file", file);
 
     try {
-      const res = await fetch("http://toolhub-1.onrender.com/api/convert/jpg-to-png", {
-        method: "POST",
-        body: formData,
 
+    	const res = await fetch("https://toolhub-1.onrender.com/api/convert/jpg-to-png", {
+        method: "POST",
+        mode: "cors",
         credentials: "omit",
-	mode: "cors",
+	body: formData,
+        headers: {
+          Accept: "application/json",
+        },
       });
 
       if (!res.ok) throw new Error("Conversion failed");

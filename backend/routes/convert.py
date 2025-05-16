@@ -12,4 +12,5 @@ async def convert(file: UploadFile = File(...)):
         converted_image,
         media_type="image/png"
     )
-}
+
+

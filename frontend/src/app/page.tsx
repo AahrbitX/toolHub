@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 
 export default function Home() {
@@ -23,7 +23,7 @@ export default function Home() {
     pos.current.dragging = true;
     pos.current.offsetX = e.clientX - pos.current.x;
     pos.current.offsetY = e.clientY - pos.current.y;
-    if (imgRef.current) imgRef.current.style.cursor = 'grabbing';
+    if (imgRef.current) imgRef.current.style.cursor = "grabbing";
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mouseup", handleMouseUp);
   };
@@ -34,7 +34,7 @@ export default function Home() {
     pos.current.dragging = true;
     pos.current.offsetX = touch.clientX - pos.current.x;
     pos.current.offsetY = touch.clientY - pos.current.y;
-    if (imgRef.current) imgRef.current.style.cursor = 'grabbing';
+    if (imgRef.current) imgRef.current.style.cursor = "grabbing";
     window.addEventListener("touchmove", handleTouchMove);
     window.addEventListener("touchend", handleTouchEnd);
   };
@@ -56,22 +56,39 @@ export default function Home() {
 
   const handleMouseUp = () => {
     pos.current.dragging = false;
-    if (imgRef.current) imgRef.current.style.cursor = 'grab';
+    if (imgRef.current) imgRef.current.style.cursor = "grab";
     window.removeEventListener("mousemove", handleMouseMove);
     window.removeEventListener("mouseup", handleMouseUp);
   };
 
   const handleTouchEnd = () => {
     pos.current.dragging = false;
-    if (imgRef.current) imgRef.current.style.cursor = 'grab';
+    if (imgRef.current) imgRef.current.style.cursor = "grab";
     window.removeEventListener("touchmove", handleTouchMove);
     window.removeEventListener("touchend", handleTouchEnd);
   };
 
+  useEffect(() => {
+    // Test CORS once when component mounts
+    try {
+      fetch("http://toolhub-1.onrender.com/api/convert/test-cors", {
+        credentials: "include",
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error("CORS test failed");
+          return res.json();
+        })
+        .then((data) => console.log("CORS test successful:", data))
+        .catch((error) => console.error("CORS test error:", error));
+    } catch (error) {
+      console.error("Error in useEffect:", error);
+    }
+  }, []);
+
   const updatePosition = () => {
     if (imgRef.current) {
       imgRef.current.style.transform = `translate(${pos.current.x}px, ${pos.current.y}px)`;
-      imgRef.current.style.transition = 'none';
+      imgRef.current.style.transition = "none";
     }
   };
 
@@ -90,10 +107,10 @@ export default function Home() {
       const res = await fetch("http://toolhub-1.onrender.com/api/convert/jpg-to-png", {
         method: "POST",
         body: formData,
-	headers: {
-	  "Accept": "application/json",
-	},
-	credentials: "include",
+        headers: {
+          Accept: "application/json",
+        },
+        credentials: "include",
       });
 
       if (!res.ok) throw new Error("Conversion failed");
@@ -106,8 +123,8 @@ export default function Home() {
       setTimeout(() => {
         if (imgRef.current) {
           imgRef.current.style.transform = "translate(0, 0)";
-          imgRef.current.style.transition = 'transform 0.3s ease';
-          imgRef.current.style.cursor = 'grab';
+          imgRef.current.style.transition = "transform 0.3s ease";
+          imgRef.current.style.cursor = "grab";
         }
       }, 100);
     } catch (error: unknown) {
@@ -147,7 +164,8 @@ export default function Home() {
 
       <main className="text-center max-w-3xl mx-auto">
         <h1 className="text-4xl sm:text-5xl font-extrabold mb-4 leading-tight tracking-tight">
-          <span className="text-orange-400">AI Powered</span><br /> JPG to PNG Converter
+          <span className="text-orange-400">AI Powered</span>
+          <br /> JPG to PNG Converter
         </h1>
 
         <p className="text-gray-400 mb-10 text-base sm:text-lg">
@@ -177,9 +195,10 @@ export default function Home() {
           onClick={handleConvert}
           disabled={!file || loading}
           className={`w-full py-4 rounded-full font-bold text-lg mb-10 uppercase tracking-wide transition-all duration-300
-            ${file && !loading
-              ? "bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-500 hover:to-purple-700 shadow-[0_0_18px_rgba(0,255,255,0.6)]"
-              : "bg-gray-600 text-gray-300 cursor-not-allowed"
+            ${
+              file && !loading
+                ? "bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-500 hover:to-purple-700 shadow-[0_0_18px_rgba(0,255,255,0.6)]"
+                : "bg-gray-600 text-gray-300 cursor-not-allowed"
             }
             text-white
           `}

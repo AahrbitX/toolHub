@@ -18,7 +18,7 @@ def test_cors():
     return {"message": "CORS is working"}
 
 # Mount your actual API routes
-app.include_router(convert_router, prefix="/api/convert")
+app.include_router(convert_router, prefix="/api")
 
 
 

@@ -72,7 +72,7 @@ export default function Home() {
     // Test CORS once when component mounts
     try {
       fetch("http://toolhub-1.onrender.com/api/convert/test-cors", {
-        credentials: "include",
+        credentials: "omit",
       })
         .then((res) => {
           if (!res.ok) throw new Error("CORS test failed");
@@ -107,9 +107,7 @@ export default function Home() {
       const res = await fetch("http://toolhub-1.onrender.com/api/convert/jpg-to-png", {
         method: "POST",
         body: formData,
-        headers: {
-          Accept: "application/json",
-        },
+
         credentials: "omit",
 	mode: "cors",
       });

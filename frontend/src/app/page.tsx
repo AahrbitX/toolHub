@@ -110,7 +110,8 @@ export default function Home() {
         headers: {
           Accept: "application/json",
         },
-        credentials: "include",
+        credentials: "omit",
+	mode: "cors",
       });
 
       if (!res.ok) throw new Error("Conversion failed");

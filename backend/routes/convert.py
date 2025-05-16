@@ -12,7 +12,4 @@ async def convert(file: UploadFile = File(...)):
         converted_image,
         media_type="image/png"
     )
-
-@router.get("/convert/test-cors")
-def test_cors():
-    return {"msg": "CORS is working"}
+}

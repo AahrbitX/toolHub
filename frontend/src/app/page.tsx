@@ -68,29 +68,35 @@ export default function Home() {
     window.removeEventListener("touchend", handleTouchEnd);
   };
 
-  useEffect(() => {
-    // Test CORS once when component mounts
-    try {
-      fetch("http://toolhub-1.onrender.com/api/convert/test-cors", {
-        credentials: "omit",
-      })
-        .then((res) => {
-          if (!res.ok) throw new Error("CORS test failed");
-          return res.json();
-        })
-        .then((data) => console.log("CORS test successful:", data))
-        .catch((error) => console.error("CORS test error:", error));
-    } catch (error) {
-      console.error("Error in useEffect:", error);
-    }
-  }, []);
-
-  const updatePosition = () => {
+   const updatePosition = () => {
     if (imgRef.current) {
       imgRef.current.style.transform = `translate(${pos.current.x}px, ${pos.current.y}px)`;
       imgRef.current.style.transition = "none";
     }
   };
+  useEffect(() => {
+  const testCORS = async () => {
+    try {
+      const res = await fetch("https://toolhub-1.onrender.com/api/convert/test-cors", {
+        method: "GET",
+        mode: "cors",
+        credentials: "omit",
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      if (!res.ok) throw new Error("CORS test failed");
+
+      const data = await res.json();
+      console.log("CORS test successful:", data);
+    } catch (error) {
+      console.error("CORS test error:", error);
+    }
+  };
+
+  testCORS();
+}, []);
 
   const handleConvert = async () => {
     if (!file) return;

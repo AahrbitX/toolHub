@@ -87,7 +87,7 @@ export default function Home() {
     formData.append("file", file);
 
     try {
-      const res = await fetch("http://localhost:8000/api/convert/jpg-to-png", {
+      const res = await fetch("http://toolhub-1.onrender.com/api/convert/jpg-to-png", {
         method: "POST",
         body: formData,
       });
